@@ -1,0 +1,131 @@
+@import url("https://fonts.cdnfonts.com/css/harry-potter");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+:root {
+  --red: #9c1203;
+  --yellow: #e3a000;
+  --green: #033807;
+  --blue: #00165e;
+  --purple: #2d004d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Harry Potter", sans-serif;
+}
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+}
+
+#video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#video-background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  flex-wrap: wrap;
+  font-size: 25px;
+}
+
+.row-data {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 5px 0px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.container-image {
+  border: 1px solid #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  height: 300px;
+  width: 200px;
+}
+
+.container-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.container-data {
+  margin: 20px 0px;
+  flex-direction: column;
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 70px;
+}
+
+h2 {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+}
+
+label {
+  color: #fff;
+  width: 170px;
+  text-align: end;
+}
+
+input {
+  width: 300px;
+  padding: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+button.main-button {
+  width: 200px;
+  text-align: center;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-button {
+  font-size: 25px;
+  margin-top: 10px;
+}
+
+.container-information {
+  display: none;
+}
+
+p {
+  color: #fff;
+}
+
+.info-value {
+  font-family: 'Open Sans', sans-serif;
+}
