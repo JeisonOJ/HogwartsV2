@@ -37,13 +37,52 @@ const showAnimalPatronum = document.querySelector(
 );
 const showQualities = document.querySelector(".info-qualities .info-value");
 const showTitle = document.querySelector("h1");
+const videoBackground = document.querySelector("#video-background");
 
 //selectors - button
-const mainButton = document.querySelector("#main-button");
+const sendButton = document.querySelector("#send-button");
+const greatHallButton = document.querySelector("#greatHall-button");
+const setHouseButton = document.querySelector("#setHouse-button");
+const classesButton = document.querySelector("#classes-button");
+const transfigurationButton = document.querySelector("#transfiguration-button");
+const darkArtsButton = document.querySelector("#darkArts-button");
+const potionButton = document.querySelector("#potion-button");
 
 //events
-mainButton.addEventListener("click", () => {
-  mostrarPersona();
+sendButton.addEventListener("click", (event) => {
+  const textButton = event.target.firstChild.nextSibling.textContent;
+  switch (textButton) {
+    case "Send":
+      principal();
+      break;
+    case "Change profile":
+      ChangeProfile();
+      break;
+    case "Principal":
+      videoBackground.src = "/video/Hogwarts Legacy Dark cutter.mp4";
+      principal();
+      break;
+    default:
+      break;
+  }
+});
+
+greatHallButton.addEventListener("click", () => {
+  goToTheGreaHall();
+});
+
+setHouseButton.addEventListener("click", () => {
+  houseSelection();
+  showStudent();
+});
+
+classesButton.addEventListener("click", () => {
+  goToTheClasses();
+});
+
+darkArtsButton.addEventListener("click", () => {
+  darkArtsClass();
+  showStudent();
 });
 
 function fillValues() {
@@ -55,29 +94,68 @@ function fillValues() {
 
 function main() {
   fillValues();
-  
 }
 
-function mostrarPersona() {
-  showTitle.textContent = "Student information"
+function principal() {
+  showTitle.textContent = "Student information";
   contentContainer.style.display = "none";
   contentInformation.style.display = "flex";
   contentInformation.style.flexDirection = "column";
   contentInformation.style.fontSize = "35px";
-  mainButton.firstChild.nextSibling.textContent = "Close"
+  sendButton.firstChild.nextSibling.textContent = "Change profile";
+  greatHallButton.style.display = "inline-block";
+  classesButton.style.display = "inline-block";
+  transfigurationButton.style.display = "none";
+  darkArtsButton.style.display = "none";
+  potionButton.style.display = "none";
+  setHouseButton.style.display = "none";
   const date = new Date();
   const dateFormat = date.toDateString();
   showDate.textContent = dateFormat;
 
+  showStudent();
+}
+
+function showStudent() {
   const { name, age, family, lineage, house, animalPatronum, qualities } =
     person;
 
-    showName.textContent = `${name} ${family}`;
-    showAge.textContent = age;
-    showLineage.textContent = lineage;
-    showHouse.textContent = house;
-    showAnimalPatronum.textContent = animalPatronum;
-    showQualities.textContent = qualities;
+  showName.textContent = `${name} ${family}`;
+  showAge.textContent = age;
+  showLineage.textContent = lineage;
+  showHouse.textContent = house;
+  showAnimalPatronum.textContent = animalPatronum;
+  showQualities.textContent = qualities;
+}
+
+function ChangeProfile() {
+  //GUARDAR VALORES DE LOS INPUTS
+  showTitle.textContent = "Welcome to Hogwarts";
+  contentContainer.style.display = "flex";
+  contentInformation.style.display = "none";
+  sendButton.firstChild.nextSibling.textContent = "Send";
+  greatHallButton.style.display = "none";
+  classesButton.style.display = "none";
+}
+
+function goToTheGreaHall() {
+  videoBackground.src = "/video/greatHall.mp4";
+  showTitle.textContent = "Great Hall";
+  sendButton.firstChild.nextSibling.textContent = "Principal";
+  greatHallButton.style.display = "none";
+  classesButton.style.display = "none";
+  setHouseButton.style.display = "inline-block";
+}
+
+function goToTheClasses() {
+  videoBackground.src = "/video/hogwartsClassroom.mp4";
+  showTitle.textContent = "Classes";
+  sendButton.firstChild.nextSibling.textContent = "Principal";
+  greatHallButton.style.display = "none";
+  classesButton.style.display = "none";
+  transfigurationButton.style.display = "inline-block";
+  darkArtsButton.style.display = "inline-block";
+  potionButton.style.display = "inline-block";
 }
 
 function randomLineage() {
@@ -132,11 +210,7 @@ function randomQualities() {
   return person.qualities;
 }
 
-function seleccionarCasa() {
-  mostrarMensaje(
-    "De acuerdo a tu lineage y tus qualities se te seleccionara una house"
-  );
-  mostrarMensaje("Seleccionando house...");
+function houseSelection() {
   if (person.lineage === lineage[0] || person.lineage === lineage[1]) {
     switch (person.qualities) {
       case qualities[0]:
@@ -149,10 +223,8 @@ function seleccionarCasa() {
         break;
       case qualities[2]:
         person.house = house[2];
-
         break;
       default:
-        mostrarMensaje("Opcion no valida");
         break;
     }
   } else {
@@ -170,7 +242,6 @@ function seleccionarCasa() {
 
         break;
       default:
-        mostrarMensaje("Opcion no valida");
         break;
     }
   }
@@ -179,8 +250,8 @@ function seleccionarCasa() {
 function claseTransformaciones() {
   mostrarMensaje("Entraste a clase de transformaciones");
   const transformaciones = {
-    nombreProfesor: "Kevin Slughorn",
-    horario: "15:00",
+    profesorName: "Kevin Slughorn",
+    schedule: "15:00",
     rastrearTransformacion: false, //true quiere decir que el boggart se esta transformando
     hechizoRiddikulus: function () {
       if (this.rastrearTransformacion) {
@@ -206,56 +277,53 @@ function claseTransformaciones() {
   mostrarMensaje("Termino la clase de transformaciones");
 }
 
-function claseDefensaArtesOscuras() {
-  mostrarMensaje("Entraste a clase de artes oscuras");
-  const defensaContraLasArtesOscuras = {
-    nombreProfesor: "Robinson Snape",
-    horario: "17:00",
-    generarAnimalPatronum: function () {
-      mostrarMensaje("Seleccionando animal de patronum...");
+function darkArtsClass() {
+  const darkArts = {
+    profesorName: "Robinson Snape",
+    schedule: "17:00",
+    generateAnimalPatronum: function () {
       const animal = Math.floor(Math.random() * 8);
 
       switch (animal) {
         case 0:
-          person.animalPatronum = "Murcielago";
+          person.animalPatronum = "Bat";
 
           break;
         case 1:
-          person.animalPatronum = "Toro";
+          person.animalPatronum = "Bull";
 
           break;
         case 2:
-          person.animalPatronum = "Gato";
+          person.animalPatronum = "Cat";
 
           break;
         case 3:
-          person.animalPatronum = "Cabra";
+          person.animalPatronum = "Goat";
 
           break;
         case 4:
-          person.animalPatronum = "Caballo";
+          person.animalPatronum = "Horse";
 
           break;
         case 5:
-          person.animalPatronum = "Conejo";
+          person.animalPatronum = "Rabbit";
 
           break;
         case 6:
-          person.animalPatronum = "Escorpion";
+          person.animalPatronum = "Scorpion";
 
           break;
         case 7:
-          person.animalPatronum = "Serpiente";
+          person.animalPatronum = "Snake";
 
           break;
         default:
-          mostrarMensaje("Opcion no valida");
           break;
       }
     },
   };
-  defensaContraLasArtesOscuras.generarAnimalPatronum();
-  mostrarMensaje("Termino la clase de defensa de artes oscuras");
+  darkArts.generateAnimalPatronum();
+  
 }
 
 function dementores() {
@@ -275,8 +343,8 @@ function dementores() {
 function clasePociones() {
   mostrarMensaje("Entraste a clase de pociones");
   const pociones = {
-    nombreProfesor: "Liliana McGonagall",
-    horario: "19:00",
+    profesorName: "Liliana McGonagall",
+    schedule: "19:00",
     crisopos: 2,
     talloDeDescurainiaSophia: 1,
     tiempoPreparacion: 5, //minutos
@@ -340,7 +408,7 @@ const profesores = {
   herbologia: "Maria Umbridge",
   pociones: "Liliana McGonagall",
   encantamientos: "Jackie",
-  defensaContraLasArtesOscuras: "Robinson Snape",
+  darkArts: "Robinson Snape",
   animalesMagicos: "David Flich",
   historiaDeMagia: "Ronald Sprout",
   mostrarProfesores: function () {
