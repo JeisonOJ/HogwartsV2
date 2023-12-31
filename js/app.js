@@ -38,9 +38,11 @@ const showAnimalPatronum = document.querySelector(
 const showQualities = document.querySelector(".info-qualities .info-value");
 const showTitle = document.querySelector("h1");
 const videoBackground = document.querySelector("#video-background");
+const validMessage = document.querySelector("#valid-message");
 
 //selectors - button
 const sendButton = document.querySelector("#send-button");
+const randomButton = document.querySelector("#random-button");
 const greatHallButton = document.querySelector("#greatHall-button");
 const setHouseButton = document.querySelector("#setHouse-button");
 const classesButton = document.querySelector("#classes-button");
@@ -53,10 +55,11 @@ sendButton.addEventListener("click", (event) => {
   const textButton = event.target.firstChild.nextSibling.textContent;
   switch (textButton) {
     case "Send":
+      saveStudent();
       principal();
       break;
-    case "Change profile":
-      ChangeProfile();
+    case "Reset profile":
+      resetProfile();
       break;
     case "Principal":
       videoBackground.src = "/video/Hogwarts Legacy Dark cutter.mp4";
@@ -67,12 +70,18 @@ sendButton.addEventListener("click", (event) => {
   }
 });
 
+randomButton.addEventListener("click", () => {
+  lineageValue.value = randomLineage();
+  qualitiesValue.value = randomQualities();
+});
+
 greatHallButton.addEventListener("click", () => {
   goToTheGreaHall();
 });
 
 setHouseButton.addEventListener("click", () => {
   houseSelection();
+  showMessage();
   showStudent();
 });
 
@@ -82,8 +91,13 @@ classesButton.addEventListener("click", () => {
 
 darkArtsButton.addEventListener("click", () => {
   darkArtsClass();
+  showMessage();
   showStudent();
 });
+
+function main() {
+  fillValues();
+}
 
 function fillValues() {
   nameValue.value = `${person.name} ${person.family}`;
@@ -92,23 +106,21 @@ function fillValues() {
   qualitiesValue.value = randomQualities();
 }
 
-function main() {
-  fillValues();
-}
-
 function principal() {
   showTitle.textContent = "Student information";
   contentContainer.style.display = "none";
   contentInformation.style.display = "flex";
   contentInformation.style.flexDirection = "column";
   contentInformation.style.fontSize = "35px";
-  sendButton.firstChild.nextSibling.textContent = "Change profile";
+  sendButton.firstChild.nextSibling.textContent = "Reset profile";
   greatHallButton.style.display = "inline-block";
   classesButton.style.display = "inline-block";
   transfigurationButton.style.display = "none";
   darkArtsButton.style.display = "none";
   potionButton.style.display = "none";
   setHouseButton.style.display = "none";
+  randomButton.style.display = "none";
+  validMessage.style.display = "none";
   const date = new Date();
   const dateFormat = date.toDateString();
   showDate.textContent = dateFormat;
@@ -116,11 +128,37 @@ function principal() {
   showStudent();
 }
 
+function showMessage() {
+  validMessage.style.display = "block";
+  if (setHouseButton.style.display === "inline-block") {
+    validMessage.firstChild.nextSibling.textContent = `Hmm, interesting. Alright, I've made my decision. You're in... ${person.house}!!!!`;
+  } else if (darkArtsButton.style.display === "inline-block") {
+    validMessage.firstChild.nextSibling.textContent = `After conquering challenges in Defense Against the Dark Arts, your Patronus has been revealed as the... ${person.animalPatronum}!`;
+  }
+}
+
+function saveStudent() {
+  const nameAndFamily = nameValue.value.split(" ");
+
+  person.name = nameAndFamily[0];
+  person.family = nameAndFamily[1];
+  person.age = ageValue.value;
+  person.lineage = lineageValue.value;
+  person.house = houseValue.value;
+  person.animalPatronum = animalPatronumValue.value;
+  person.qualities = qualitiesValue.value;
+}
+
 function showStudent() {
   const { name, age, family, lineage, house, animalPatronum, qualities } =
     person;
 
-  showName.textContent = `${name} ${family}`;
+  if (family) {
+    showName.textContent = `${name} ${family}`;
+  } else {
+    showName.textContent = `${name}`;
+  }
+
   showAge.textContent = age;
   showLineage.textContent = lineage;
   showHouse.textContent = house;
@@ -128,14 +166,27 @@ function showStudent() {
   showQualities.textContent = qualities;
 }
 
-function ChangeProfile() {
+function resetProfile() {
   //GUARDAR VALORES DE LOS INPUTS
   showTitle.textContent = "Welcome to Hogwarts";
   contentContainer.style.display = "flex";
   contentInformation.style.display = "none";
   sendButton.firstChild.nextSibling.textContent = "Send";
+  randomButton.style.display = "inline-block";
   greatHallButton.style.display = "none";
   classesButton.style.display = "none";
+
+  const { name, age, family, lineage, qualities } = person;
+
+  if (family) {
+    nameValue.value = `${name} ${family}`;
+  } else {
+    nameValue.value = `${name}`;
+  }
+
+  ageValue.value = age;
+  lineageValue.value = lineage;
+  qualitiesValue.value = qualities;
 }
 
 function goToTheGreaHall() {
@@ -153,9 +204,9 @@ function goToTheClasses() {
   sendButton.firstChild.nextSibling.textContent = "Principal";
   greatHallButton.style.display = "none";
   classesButton.style.display = "none";
-  transfigurationButton.style.display = "inline-block";
+  // transfigurationButton.style.display = "inline-block";
+  // potionButton.style.display = "inline-block";
   darkArtsButton.style.display = "inline-block";
-  potionButton.style.display = "inline-block";
 }
 
 function randomLineage() {
@@ -323,7 +374,6 @@ function darkArtsClass() {
     },
   };
   darkArts.generateAnimalPatronum();
-  
 }
 
 function dementores() {
