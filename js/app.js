@@ -49,6 +49,7 @@ const classesButton = document.querySelector("#classes-button");
 const transfigurationButton = document.querySelector("#transfiguration-button");
 const darkArtsButton = document.querySelector("#darkArts-button");
 const potionButton = document.querySelector("#potion-button");
+const playButton = document.querySelector("#play-button");
 
 //events
 sendButton.addEventListener("click", (event) => {
@@ -74,6 +75,11 @@ randomButton.addEventListener("click", () => {
   lineageValue.value = randomLineage();
   qualitiesValue.value = randomQualities();
 });
+
+playButton.addEventListener("click",()=>{
+  videoBackground.play()
+}
+)
 
 greatHallButton.addEventListener("click", () => {
   goToTheGreaHall();
@@ -121,6 +127,7 @@ function principal() {
   setHouseButton.style.display = "none";
   randomButton.style.display = "none";
   validMessage.style.display = "none";
+  playButton.style.display = "none";
   const date = new Date();
   const dateFormat = date.toDateString();
   showDate.textContent = dateFormat;
